@@ -17,3 +17,10 @@ Additional ToDos
 Deployment on a web platform (likely Heroku)
 Allow text documents to be read and messed with.
 Allow .docx and other text based documents to be loaded.
+
+
+Requirements
+------------
+
+2020-12-13 :- The program sofar uses Random and tkinter. As both are included in the standard python packages there is no additional packages required at this time.
+
