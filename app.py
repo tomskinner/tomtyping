@@ -5,23 +5,20 @@ aim to take a string of normal text and make it horrible to read.
 1. Randomly changes the capitalisations in the words. 
 2. Insert additional random spaces between words.
 3. Include special characters added into words.
-4. take a word and scramble the internals of the word. i.e. super becomes speur
+4. take a word and scramble the internals of the word. i.e. super becomes speur #### STILL TODO
 
 ################################################
 What needs to be done.
 
 Function to find words without specal characters and scramble the internals
 :- Still TODO
-
-
-Additional :- Still TODO
-Create a GUI to operate in.
 allow text documents to be read and messed with.
 allow .docx and other text based documents to be loaded.
 
 
 '''
-
+from flask import Flask, render_template, request
+from flask_heroku import Heroku
 import random
 from tkinter import *
 
@@ -153,46 +150,21 @@ def specialcharpicker(doit):
     specialChar = ['!','£','$','%','^','&','*','|','/','*','-','+','<','>',',','.','#','~','@',1,2,3,4,5,6,7,8,9,0]
     return str(specialChar[doit])
 
-def gotoit(frame):
-    StringInput = entrybox.get()
-    
-    frame.destroy() # doesn't clear the label
-    
-    outputbox = Label(outputframe, text = "The output is here", bg= colour)
-    outputbox.grid(row=0, column = 0, columnspan = 2)
-    
-    mainloop(StringInput, 1, OutputStr)
-    
 
-######################################
-root = Tk()
-root.title('Toms Typer v.' + str(versionnumber))
-#root.iconbitmap('@/home/pi/Documents/Python/GUI/icons/street_warning_transport_icon_148640.xbm')
-root.geometry("773x400")
-root.configure(background = colour)
 
-mainlabel = Label(root, text = "Get it Scrambled", bg = colour)
-mainlabel.grid(row=0, column=0)
 
-btn = Button(root, text = "Scramble", command = lambda: gotoit(outputbox))
-btn.grid(row=0, column=1)
 
-entrybox = Entry(root, bg = "#efefef", width=85, font = 'wrap')
-entrybox.place(height=50)
-entrybox.grid(row = 1, column = 0, ipady = 80, columnspan = 2)
 
-outputframe = Frame(root, bg = colour, width=75, height=50,)
-outputframe.grid(row=2, column=0,columnspan = 2)
+app = Flask(__name__)
+heroku = Heroku(app)
 
-outputlabel = Label(outputframe, text = "The output is here", bg= colour)
-outputlabel.grid(row=0, column = 0, columnspan = 2)
+@app.route('/', methods = ['GET', 'POST'])
+def main():
+    if request.method == 'POST':
+        text = request.form['text']
 
-outputbox = Label(outputframe, text = " ", bg= colour, width = 85, height = 40)
-outputbox.grid(row=1, column = 0, columnspan = 2)
-###########################################################
-#StringInput = input("Type in a string to tomtype! \n :=")
+        mainloop(text, 1, OutputStr)
 
-root.mainloop()
-
+    return render_template('index.html')
 
 
